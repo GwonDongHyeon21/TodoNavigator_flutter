@@ -39,6 +39,9 @@ dependencies:
   table_calendar: ^3.1.2
   intl: ^0.19.0
   webview_flutter: ^4.5.0
+  google_maps_flutter: ^2.5.3
+  http: ^1.1.0
+  url_launcher: ^6.2.4
 
 dev_dependencies:
   flutter_test:
@@ -56,8 +59,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-  assets:
-    - assets/map.html
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

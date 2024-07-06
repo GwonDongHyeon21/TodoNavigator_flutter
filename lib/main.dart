@@ -3,10 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:todo_flutter/navigator/navigator.dart';
 import 'package:todo_flutter/provider/todo_provider.dart';
 import 'package:intl/date_symbol_data_local.dart' show initializeDateFormatting;
-import 'package:todo_flutter/screen/memo_content.dart';
-import 'package:todo_flutter/screen/todo_add.dart';
+import 'package:todo_flutter/todo/memo_content.dart';
+import 'package:todo_flutter/todo/todo_add.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -180,8 +181,16 @@ class _TodoCalendarScreenState extends State<TodoCalendarScreen> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
+                          /*MaterialPageRoute(
                             builder: (context) => MemoContent(
+                              title: todo.title,
+                              date: todo.date,
+                              startLocation: todo.startLocation,
+                              endLocation: todo.endLocation,
+                            ),
+                          ),*/
+                          MaterialPageRoute(
+                            builder: (context) => MapNavigator(
                               title: todo.title,
                               date: todo.date,
                               startLocation: todo.startLocation,
