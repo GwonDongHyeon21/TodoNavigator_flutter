@@ -24,107 +24,109 @@ class _TodoAddState extends State<TodoAdd> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('todo 추가'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            TextFormField(
-              controller: _titleController,
-              maxLength: 20,
-              maxLines: 1,
-              decoration: const InputDecoration(
-                labelText: '제목',
+      resizeToAvoidBottomInset: false,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              TextFormField(
+                controller: _titleController,
+                maxLength: 20,
+                maxLines: 1,
+                decoration: const InputDecoration(
+                  labelText: '제목',
+                ),
+                validator: _validateTitle,
               ),
-              validator: _validateTitle,
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _startLocationController,
-                    decoration: const InputDecoration(
-                      labelText: '출발지',
+              Row(
+                children: [
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () async {
+                        LatLng? selectedLocation = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const MapScreen(),
+                          ),
+                        );
+                        if (selectedLocation != null) {
+                          List<Placemark> placemarks =
+                              await placemarkFromCoordinates(
+                            selectedLocation.latitude,
+                            selectedLocation.longitude,
+                          );
+                          setState(() {
+                            _startLocationController.text =
+                                placemarks.first.street ?? '알 수 없는 위치';
+                          });
+                        }
+                      },
+                      child: AbsorbPointer(
+                        child: TextField(
+                          controller: _startLocationController,
+                          decoration: const InputDecoration(
+                            labelText: '출발지',
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.add_location_alt),
-                  onPressed: () async {
-                    LatLng? selectedLocation = await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const MapScreen(),
+                ],
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () async {
+                        LatLng? selectedLocation = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const MapScreen(),
+                          ),
+                        );
+                        if (selectedLocation != null) {
+                          List<Placemark> placemarks =
+                              await placemarkFromCoordinates(
+                            selectedLocation.latitude,
+                            selectedLocation.longitude,
+                          );
+                          setState(() {
+                            _endLocationController.text =
+                                placemarks.first.street ?? '알 수 없는 위치';
+                          });
+                        }
+                      },
+                      child: AbsorbPointer(
+                        child: TextField(
+                          controller: _endLocationController,
+                          decoration: const InputDecoration(
+                            labelText: '목적지',
+                          ),
+                        ),
                       ),
-                    );
-                    if (selectedLocation != null) {
-                      List<Placemark> placemarks =
-                          await placemarkFromCoordinates(
-                        selectedLocation.latitude,
-                        selectedLocation.longitude,
-                      );
-                      setState(() {
-                        _startLocationController.text =
-                            placemarks.first.street ?? '알 수 없는 위치';
-                      });
-                    }
-                  },
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _endLocationController,
-                    decoration: const InputDecoration(
-                      labelText: '목적지',
                     ),
                   ),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.add_location_alt),
-                  onPressed: () async {
-                    LatLng? selectedLocation = await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const MapScreen(),
-                      ),
+                ],
+              ),
+              const SizedBox(height: 70),
+              ElevatedButton(
+                onPressed: () {
+                  if (_titleController.text.isNotEmpty) {
+                    Provider.of<TodoProvider>(context, listen: false).addTodo(
+                      widget.selectedDay,
+                      _titleController.text,
+                      _startLocationController.text,
+                      _endLocationController.text,
                     );
-                    if (selectedLocation != null) {
-                      List<Placemark> placemarks =
-                          await placemarkFromCoordinates(
-                        selectedLocation.latitude,
-                        selectedLocation.longitude,
-                      );
-                      setState(() {
-                        _endLocationController.text =
-                            placemarks.first.street ?? '알 수 없는 위치';
-                      });
-                    }
-                  },
-                ),
-              ],
-            ),
-            const Spacer(),
-            ElevatedButton(
-              onPressed: () {
-                if (_titleController.text.isNotEmpty) {
-                  Provider.of<TodoProvider>(context, listen: false).addTodo(
-                    widget.selectedDay,
-                    _titleController.text,
-                    _startLocationController.text,
-                    _endLocationController.text,
-                  );
-                  Navigator.of(context).pop();
-                }
-              },
-              child: const Text('추가'),
-            ),
-          ],
+                    Navigator.of(context).pop();
+                  }
+                },
+                child: const Text('추가'),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -16,7 +16,7 @@ class _MapScreenState extends State<MapScreen> {
   final LatLng _initialPosition = const LatLng(37.5665, 126.9780);
   LatLng? _selectedPosition;
   final places =
-      GoogleMapsPlaces(apiKey: 'AIzaSyCcv1u2fUJ6XeB11z8F-B0TxbaijNhmYgw');
+      GoogleMapsPlaces(apiKey: '//google map api');
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +76,7 @@ class _MapScreenState extends State<MapScreen> {
                   ),
                   child: GooglePlaceAutoCompleteTextField(
                     textEditingController: TextEditingController(),
-                    googleAPIKey: 'AIzaSyCcv1u2fUJ6XeB11z8F-B0TxbaijNhmYgw',
+                    googleAPIKey: '//google map api',
                     inputDecoration: InputDecoration(
                       hintText: '검색할 위치를 입력하세요',
                       border: OutlineInputBorder(

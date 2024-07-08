@@ -207,10 +207,20 @@ class _TodoCalendarScreenState extends State<TodoCalendarScreen> {
             ),
             iconSize: 50,
             onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => TodoAdd(selectedDay: _selectedDay),
-                ),
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                builder: (BuildContext context) {
+                  return SingleChildScrollView(
+                    padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).viewInsets.bottom,
+                    ),
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.4,
+                      child: TodoAdd(selectedDay: _selectedDay),
+                    ),
+                  );
+                },
               );
             },
           ),
