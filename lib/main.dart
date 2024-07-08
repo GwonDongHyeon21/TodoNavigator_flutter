@@ -3,10 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:todo_flutter/navigator/navigator.dart';
+import 'package:todo_flutter/navigator/google_navigator.dart';
 import 'package:todo_flutter/provider/todo_provider.dart';
-import 'package:intl/date_symbol_data_local.dart' show initializeDateFormatting;
-import 'package:todo_flutter/todo/memo_content.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:todo_flutter/todo/todo_add.dart';
 
 void main() async {
@@ -91,7 +90,7 @@ class _TodoCalendarScreenState extends State<TodoCalendarScreen> {
                 });
               },
               calendarBuilders: CalendarBuilders(
-                markerBuilder: (context, date, events) {
+                markerBuilder: (context, date, _) {
                   final todoCount =
                       Provider.of<TodoProvider>(context).getTodoCount(date);
                   if (todoCount > 0) {
@@ -181,14 +180,6 @@ class _TodoCalendarScreenState extends State<TodoCalendarScreen> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          /*MaterialPageRoute(
-                            builder: (context) => MemoContent(
-                              title: todo.title,
-                              date: todo.date,
-                              startLocation: todo.startLocation,
-                              endLocation: todo.endLocation,
-                            ),
-                          ),*/
                           MaterialPageRoute(
                             builder: (context) => MapNavigator(
                               title: todo.title,
