@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:google_places_flutter/google_places_flutter.dart';
@@ -15,22 +16,13 @@ class _MapScreenState extends State<MapScreen> {
   GoogleMapController? mapController;
   final LatLng _initialPosition = const LatLng(37.5665, 126.9780);
   LatLng? _selectedPosition;
-  final places =
-      GoogleMapsPlaces(apiKey: '//google map api');
+  final places = GoogleMapsPlaces(apiKey: dotenv.env['GOOGLE_MAPS_API_KEY']);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('위치 선택'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.check),
-            onPressed: () {
-              Navigator.pop(context, _selectedPosition);
-            },
-          ),
-        ],
       ),
       body: Stack(
         children: [
@@ -76,7 +68,7 @@ class _MapScreenState extends State<MapScreen> {
                   ),
                   child: GooglePlaceAutoCompleteTextField(
                     textEditingController: TextEditingController(),
-                    googleAPIKey: '//google map api',
+                    googleAPIKey: dotenv.env['GOOGLE_MAPS_API_KEY'].toString(),
                     inputDecoration: InputDecoration(
                       hintText: '검색할 위치를 입력하세요',
                       border: OutlineInputBorder(
@@ -115,6 +107,18 @@ class _MapScreenState extends State<MapScreen> {
                   ),
                 ),
               ],
+            ),
+          ),
+          Positioned(
+            bottom: 20,
+            right: 60,
+            child: FloatingActionButton(
+              onPressed: () {
+                if (_selectedPosition != null) {
+                  Navigator.pop(context, _selectedPosition);
+                }
+              },
+              child: const Icon(Icons.check),
             ),
           ),
         ],

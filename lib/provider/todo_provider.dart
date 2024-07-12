@@ -37,6 +37,13 @@ class TodoProvider with ChangeNotifier {
     }
   }
 
+  void updateTodo(DateTime date, int index, Todo updatedTodo) {
+    if (todos.containsKey(date)) {
+      todos[date]![index] = updatedTodo;
+      notifyListeners();
+    }
+  }
+
   int getTodoCount(DateTime date) {
     return todos[date]?.length ?? 0;
   }
