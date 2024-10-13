@@ -7,7 +7,7 @@
     </queries>
     
     <application
-        android:label="todo+navigator"
+        android:label="아, 맞다!"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:hardwareAccelerated="true"
@@ -40,6 +40,6 @@
             android:value="2" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="//GOOGLE_MAPS_API_KEY"/>
+            android:value="AIzaSyCcv1u2fUJ6XeB11z8F-B0TxbaijNhmYgw"/>
     </application>
 </manifest>
